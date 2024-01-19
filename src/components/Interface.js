@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import Table from "./Table";
 import Search from "./Search";
 import PageHandler from "./PageHandler";
-// import DeleteButton from "./DeleteButton";
 import EditData from "./EditData";
 import AddData from "./AddData";
 

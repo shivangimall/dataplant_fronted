@@ -23,10 +23,10 @@ const Table = ({
       <thead>
         <tr>
           
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Subject</th>
+          <th>Schedule</th>
           <th>Actions</th>
         </tr>
       </thead>
