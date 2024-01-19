@@ -114,7 +114,7 @@ const EditData = ({edit,setEdit,user,setToggle, toggle}) => {
 
 
   return (
-    <div className='flex flex-col z-2 fixed right-24 bg-white p-3 border-3 border-gray-300 shadow-2xl w-3/8'>
+    <div className='flex flex-col z-2 absolute right-24 bg-white p-3 border-3 border-gray-300 shadow-2xl w-3/8'>
     <h1 className='mb-4 text-2xl '>Add Schedule</h1>
     <form className='flex flex-col' onSubmit={handleSubmit}>
         <div className='flex justify-between p-3 gap-2' >
