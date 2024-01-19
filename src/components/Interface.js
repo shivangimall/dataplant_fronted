@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/style.css";
@@ -5,7 +6,7 @@ import { toast } from "react-toastify";
 import Table from "./Table";
 import Search from "./Search";
 import PageHandler from "./PageHandler";
-import DeleteButton from "./DeleteButton";
+// import DeleteButton from "./DeleteButton";
 import EditData from "./EditData";
 import AddData from "./AddData";
 
@@ -22,12 +23,13 @@ const Interface = () => {
   const [editData, seteditData] = useState(null);
   const [showAdd, setShowAdd] = useState(false)
   const [edit,setEdit] = useState(null)
+  const [toggle,setToggle] = useState(false)
 
   const itemsPerPage = 10;
 
   useEffect(() => {
     fetchTheData();
-  }, []);
+  }, [toggle]);
 
   const fetchTheData = async () => {
     try {
@@ -62,10 +64,8 @@ const Interface = () => {
 
     try{
     const res = await axios.delete(`${URL}/schedule/${id}`)
-    
-    setfilterUsers((prevfilterUsers) =>
-      prevfilterUsers.filter((user) => user.id !== id)
-    );
+      console.log(res.data,"res")
+    setfilterUsers(res.data);
 
     toast.error("Deleted Successfully!");
     }
@@ -126,7 +126,7 @@ const Interface = () => {
     <div className="flex justify-between mx-5">
       <Search searchText={searchText} handleSearch={handleSearch}/>
       <div className="flex">
-      {showAdd && <div><AddData showAdd={showAdd} setShowAdd={setShowAdd}/></div>}
+      {showAdd && <div><AddData showAdd={showAdd} setShowAdd={setShowAdd} setToggle={setToggle}/></div>}
       <div className="bg-blue-950 text-white p-2 my-4 rounded-md">
       
        
@@ -147,6 +147,8 @@ const Interface = () => {
         handleDelete={handleDelete}
         setEdit={setEdit}
         edit={edit}
+        setToggle={setToggle}
+        toggle={toggle}
         handleSelectAllRows={handleSelectAllRows}
       />
       <PageHandler

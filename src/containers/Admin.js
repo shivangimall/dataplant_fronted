@@ -2,7 +2,7 @@ import Interface from "../components/Interface";
 import "../index.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+//Component for UI
 function Admin() {
   return (
     <div className="Main">

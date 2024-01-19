@@ -1,5 +1,5 @@
 import React from "react";
-
+//Search Functionality
 const Search = ({ searchQuery, handleSearch }) => {
   return (
     <input

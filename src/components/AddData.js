@@ -1,20 +1,23 @@
+/* eslint-disable no-useless-computed-key */
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
+import { toast } from 'react-toastify';
 
-const AddData = ({showAdd,setShowAdd}) => {
+const AddData = ({showAdd,setShowAdd, setToggle}) => {
 
   const [daily, setDaily] = useState(false);
   const [weekly, setWeekly] = useState(false);
   const [repeat, setRepeat] = useState([]);
   const [monthly, setMonthly] = useState(false);
   const [formData, setFormData] = useState({
-    title:"",
-    description: "",
-    subject:"",
-    frequency:"",
-    repeat:[],
-    time:""
+    Title:"",
+    Description: "",
+    Subject:"",
+    Frequency:"Daily",
+    Repeat:[],
+    Time:""
   })
 
 
@@ -23,10 +26,10 @@ const AddData = ({showAdd,setShowAdd}) => {
     console.log(id,value)
     setFormData({
       ...formData,
-        [id]: value,["repeat"]:[]
+        [id]: value,["Repeat"]:[]
       
     });
-    if(e.target.value==='weekly')
+    if(e.target.value==='Weekly')
     {
       setDaily(false)
       setMonthly(false);
@@ -34,14 +37,14 @@ const AddData = ({showAdd,setShowAdd}) => {
       setRepeat([]);
       
     }
-    else if(e.target.value==='daily'){
+    else if(e.target.value==='Daily'){
       setDaily(true)
       setMonthly(false);
       setWeekly(false);
       setRepeat([])
       
     }
-    else if(e.target.value==='monthly'){
+    else if(e.target.value==='Monthly'){
       setDaily(false)
       setMonthly(true);
       setWeekly(false);
@@ -63,11 +66,11 @@ const AddData = ({showAdd,setShowAdd}) => {
     const value = e.target.value || e.target.dataset.value; 
     
     
-    if(e?.target?.value && e.target.id==='monthly'){
+    if(e?.target?.value && e.target.id==='Monthly'){
       setRepeat([value]);
       setFormData({
         ...formData,
-        ["repeat"]: [value]
+        ["Repeat"]: [value]
       });
     }
     else{
@@ -76,14 +79,14 @@ const AddData = ({showAdd,setShowAdd}) => {
       setRepeat(repeat.filter(item => item !== value));
       setFormData({
         ...formData,
-        ["repeat"]: [repeat.filter(item => item !== value)]
+        ["Repeat"]: [repeat.filter(item => item !== value)]
       });
     } else {
       
       setRepeat([...repeat, value]);
       setFormData({
         ...formData,
-        ["repeat"]: [...repeat,value]
+        ["Repeat"]: [...repeat,value]
       });
     }
 
@@ -97,14 +100,16 @@ const AddData = ({showAdd,setShowAdd}) => {
     try{
     const res = await axios.post("https://dataplant-assessment.onrender.com/schedule",formData, {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       }});
 
       console.log(res, res)
       setShowAdd(false);
+      setToggle(true)
     }
     catch(err){
-      console.log(err)
+      console.log(err.message,"gg")
+      toast.error(err.message,"All fields are required");
     }
   }
   
@@ -116,29 +121,29 @@ const AddData = ({showAdd,setShowAdd}) => {
     <form className='flex flex-col' onSubmit={handleSubmit}>
         <div className='flex justify-between p-3 gap-2' >
         <label className='w-1/3'>Title</label>
-        <input type='text' id='title' placeholder='Title' onChange={handleInputChange} className='border-2 border-gray-400 p-1 w-2/3'/>
+        <input type='text' id='Title' placeholder='Title' onChange={handleInputChange} className='border-2 border-gray-400 p-1 w-2/3'/>
         </div>
         <div className='flex justify-between p-3 gap-2'>
         <label className='w-1/3'>Description</label>
-        <textarea type='text-area' id='description' placeholder='Description' onChange={handleInputChange} className='border-2 w-2/3 border-gray-400 p-1'/>
+        <textarea type='text-area' id='Description' placeholder='Description' onChange={handleInputChange} className='border-2 w-2/3 border-gray-400 p-1'/>
         </div>
         <div className='flex justify-between p-3 gap-2'>
           <label className='w-1/3'>Subject</label>
-          <input type='text' id='subject' placeholder='Subject' onChange={handleInputChange} className='border-2 w-2/3 border-gray-400 p-1'/>
+          <input type='text' id='Subject' placeholder='Subject' onChange={handleInputChange} className='border-2 w-2/3 border-gray-400 p-1'/>
         </div>
         <div className='flex justify-between p-3 gap-2'>
           <label className='w-1/3'>Frequency</label>
-          <select id='frequency' onChange={(e)=>handleSelectFrequency(e)} className='border-2 border-gray-400 p-1 w-2/3'>
-            <option default id='daily' name='daily' value='daily'>Daily</option>
-            <option id='weekly' name='weekly' value='weekly'>Weekly</option>
-            <option id='monthly' name='monthly' value='monthly'>Monthly</option>
+          <select id='Frequency' onChange={(e)=>handleSelectFrequency(e)} className='border-2 border-gray-400 p-1 w-2/3'>
+            <option default id='Daily' name='Daily' value='Daily'>Daily</option>
+            <option id='Weekly' name='Weekly' value='Weekly'>Weekly</option>
+            <option id='Monthly' name='Monthly' value='Monthly'>Monthly</option>
           </select>
         </div>
         {
           monthly &&
           (<div className='flex justify-between p-3 gap-2'>
           <label className='w-1/3'>Repeat</label>
-          <select id='repeat' className='border-2 border-gray-400 p-1 w-2/3' onChange={(e)=>handleRepeatChange(e)}>
+          <select id='Repeat' className='border-2 border-gray-400 p-1 w-2/3' onChange={(e)=>handleRepeatChange(e)}>
             <option  default>Select the one</option>
             <option  id='monday' value='first-monday'>First Monday</option>
             <option id='tuesday' value='first-tuesday'>First Tuesday</option>
@@ -165,7 +170,7 @@ const AddData = ({showAdd,setShowAdd}) => {
         }
         <div className='flex justify-between p-3 gap-2'>
           <label className='w-1/3'>Time</label>
-          <input type='time' id='time' className='border-2 border-gray-400 p-1 w-2/3' onChange={handleInputChange} default='10:00 AM'/>
+          <input type='time' id='Time' className='border-2 border-gray-400 p-1 w-2/3' onChange={handleInputChange} default='10:00 AM'/>
         </div>
         <div className='flex justify-end p-3'>
         <button type='button' className='p-2 gap-2 border-2 border-blue-950 mx-2 rounded-md bg-purple-900 text-white text-sm' onClick={()=>setShowAdd(!showAdd)}>Cancel</button>

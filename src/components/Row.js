@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import EditData from "./EditData";
 
 const Row = ({
@@ -9,11 +8,12 @@ const Row = ({
   handleEdit,
   handleDelete,
   setEdit,
-  edit
+  edit,
+  setToggel,
+  toggle
 }) => {
 
-  
-  const [userId,setUserId] = useState(null)
+
 
   return (
     <tr className=''>
@@ -22,7 +22,7 @@ const Row = ({
       <td>{user.Description}</td>
       <td>{user.Subject}</td>
       <td>{`${user.Frequency} at ${user.Time}`}</td>
-      {edit===user._id && <div><EditData edit={edit} setEdit={setEdit} /></div>}
+      {edit===user._id && <div><EditData edit={edit} setEdit={setEdit} user={user} setToggle={setToggel} toggle={toggle}/></div>}
       <td className="btn-container">
         <button onClick={() => 
         {
